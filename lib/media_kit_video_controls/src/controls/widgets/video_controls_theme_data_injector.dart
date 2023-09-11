@@ -49,9 +49,11 @@ class _VideoControlsThemeDataInjectorState
       final normal = theme?.normal ?? kDefaultMaterialVideoControlsThemeData;
       final fullscreen =
           theme?.fullscreen ?? kDefaultMaterialVideoControlsThemeDataFullscreen;
+      final overlayVideo = theme?.overlayVideo ?? Container();
       return MaterialVideoControlsTheme(
         normal: normal,
         fullscreen: fullscreen,
+        overlayVideo: overlayVideo,
         child: child,
       );
     },
@@ -65,12 +67,10 @@ class _VideoControlsThemeDataInjectorState
       final fullscreen = theme?.fullscreen ??
           kDefaultMaterialDesktopVideoControlsThemeDataFullscreen;
       final overlayVideo = theme?.overlayVideo ?? Container();
-      final test = theme!.text;
       return MaterialDesktopVideoControlsTheme(
         normal: normal,
         fullscreen: fullscreen,
         overlayVideo: overlayVideo,
-        text: test,
         child: child,
       );
     },

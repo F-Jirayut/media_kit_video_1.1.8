@@ -17,8 +17,7 @@ bool isFullscreen(BuildContext context) =>
     FullscreenInheritedWidget.maybeOf(context) != null;
 
 /// Makes the [Video] present in the current [BuildContext] enter fullscreen.
-Future<void> enterFullscreen(
-    BuildContext context, Widget? overlayVideo, String text) {
+Future<void> enterFullscreen(BuildContext context, Widget? overlayVideo) {
   return lock.synchronized(() async {
     if (!isFullscreen(context)) {
       if (context.mounted) {
@@ -57,7 +56,7 @@ Future<void> enterFullscreen(
                             // Do not acquire or modify existing wakelock in fullscreen mode:
                             wakelock: false,
                           ),
-                          overlayVideo ?? Text(text)
+                          overlayVideo ?? Container()
                         ],
                       ),
                     ),
@@ -93,12 +92,11 @@ Future<void> exitFullscreen(BuildContext context) {
 }
 
 /// Toggles fullscreen for the [Video] present in the current [BuildContext].
-Future<void> toggleFullscreen(
-    BuildContext context, Widget? overlayVideo, String text) {
+Future<void> toggleFullscreen(BuildContext context, Widget? overlayVideo) {
   if (isFullscreen(context)) {
     return exitFullscreen(context);
   } else {
-    return enterFullscreen(context, overlayVideo, text);
+    return enterFullscreen(context, overlayVideo);
   }
 }
 

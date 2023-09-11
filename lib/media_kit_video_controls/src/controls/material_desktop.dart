@@ -323,13 +323,11 @@ class MaterialDesktopVideoControlsTheme extends InheritedWidget {
   final MaterialDesktopVideoControlsThemeData normal;
   final MaterialDesktopVideoControlsThemeData fullscreen;
   final Widget? overlayVideo;
-  final String text;
   const MaterialDesktopVideoControlsTheme({
     super.key,
     required this.normal,
     required this.fullscreen,
     this.overlayVideo,
-    required this.text,
     required super.child,
   });
 
@@ -551,10 +549,10 @@ class _MaterialDesktopVideoControlsState
               },
               const SingleActivator(LogicalKeyboardKey.keyF): () =>
                   toggleFullscreen(
-                      context,
-                      MaterialDesktopVideoControlsTheme.maybeOf(context)
-                          ?.overlayVideo,
-                      MaterialDesktopVideoControlsTheme.maybeOf(context)!.text),
+                    context,
+                    MaterialDesktopVideoControlsTheme.maybeOf(context)
+                        ?.overlayVideo,
+                  ),
               const SingleActivator(LogicalKeyboardKey.escape): () =>
                   exitFullscreen(context),
             },
@@ -599,10 +597,7 @@ class _MaterialDesktopVideoControlsState
                           toggleFullscreen(
                               context,
                               MaterialDesktopVideoControlsTheme.maybeOf(context)
-                                  ?.overlayVideo,
-                              MaterialDesktopVideoControlsTheme.maybeOf(
-                                      context)!
-                                  .text);
+                                  ?.overlayVideo);
                         }
                       },
                 onPanUpdate: _theme(context).modifyVolumeOnScroll
@@ -1197,9 +1192,8 @@ class MaterialDesktopFullscreenButton extends StatelessWidget {
     var overlayVideo =
         MaterialDesktopVideoControlsTheme.maybeOf(context)?.overlayVideo ??
             Container();
-    var text = MaterialDesktopVideoControlsTheme.maybeOf(context)!.text;
     return IconButton(
-      onPressed: () => toggleFullscreen(context, overlayVideo, text),
+      onPressed: () => toggleFullscreen(context, overlayVideo),
       icon: icon ??
           (isFullscreen(context)
               ? const Icon(Icons.fullscreen_exit)
