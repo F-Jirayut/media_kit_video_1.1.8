@@ -17,13 +17,14 @@ bool isFullscreen(BuildContext context) =>
     FullscreenInheritedWidget.maybeOf(context) != null;
 
 /// Makes the [Video] present in the current [BuildContext] enter fullscreen.
-Future<void> enterFullscreen(BuildContext context, Widget? overlayVideo) {
+Future<void> enterFullscreen(
+    BuildContext context, Widget? overlayVideo, String text) {
   return lock.synchronized(() async {
     if (!isFullscreen(context)) {
       if (context.mounted) {
         final stateValue = state(context);
         final contextNotiferValue = contextNotifier(context);
-        // final controllerValue = controller(context);
+        final controllerValue = controller(context);
         Navigator.of(context, rootNavigator: true).push(
           PageRouteBuilder(
             pageBuilder: (_, __, ___) => VideoControlsThemeDataInjector(
@@ -35,27 +36,30 @@ Future<void> enterFullscreen(BuildContext context, Widget? overlayVideo) {
                 child: FullscreenInheritedWidget(
                   parent: stateValue,
                   // Another [VideoStateInheritedWidget] inside [FullscreenInheritedWidget] is important to notify about the fullscreen [BuildContext].
-                  child: Scaffold(
-                    body: Stack(
-                      children: [
-                        // Video player
-                        Video(
-                          controller: controller(context),
-                          // Not required in fullscreen mode:
-                          // width: null,
-                          // height: null,
-                          // Inherit following properties from the parent [Video]:
-                          fit: state(context).widget.fit,
-                          fill: state(context).widget.fill,
-                          alignment: state(context).widget.alignment,
-                          aspectRatio: state(context).widget.aspectRatio,
-                          filterQuality: state(context).widget.filterQuality,
-                          controls: state(context).widget.controls,
-                          // Do not acquire or modify existing wakelock in fullscreen mode:
-                          wakelock: false,
-                        ),
-                        overlayVideo!,
-                      ],
+                  child: VideoStateInheritedWidget(
+                    state: stateValue,
+                    contextNotifier: contextNotiferValue,
+                    child: Scaffold(
+                      body: Stack(
+                        children: [
+                          Video(
+                            controller: controllerValue,
+                            // Not required in fullscreen mode:
+                            // width: null,
+                            // height: null,
+                            // Inherit following properties from the parent [Video]:
+                            fit: stateValue.widget.fit,
+                            fill: stateValue.widget.fill,
+                            alignment: stateValue.widget.alignment,
+                            aspectRatio: stateValue.widget.aspectRatio,
+                            filterQuality: stateValue.widget.filterQuality,
+                            controls: stateValue.widget.controls,
+                            // Do not acquire or modify existing wakelock in fullscreen mode:
+                            wakelock: false,
+                          ),
+                          overlayVideo ?? Text(text)
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -89,11 +93,12 @@ Future<void> exitFullscreen(BuildContext context) {
 }
 
 /// Toggles fullscreen for the [Video] present in the current [BuildContext].
-Future<void> toggleFullscreen(BuildContext context, Widget? overlayVideo) {
+Future<void> toggleFullscreen(
+    BuildContext context, Widget? overlayVideo, String text) {
   if (isFullscreen(context)) {
     return exitFullscreen(context);
   } else {
-    return enterFullscreen(context, overlayVideo);
+    return enterFullscreen(context, overlayVideo, text);
   }
 }
 

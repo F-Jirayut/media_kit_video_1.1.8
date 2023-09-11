@@ -64,9 +64,13 @@ class _VideoControlsThemeDataInjectorState
           theme?.normal ?? kDefaultMaterialDesktopVideoControlsThemeData;
       final fullscreen = theme?.fullscreen ??
           kDefaultMaterialDesktopVideoControlsThemeDataFullscreen;
+      final overlayVideo = theme?.overlayVideo ?? Container();
+      final test = theme!.text;
       return MaterialDesktopVideoControlsTheme(
         normal: normal,
         fullscreen: fullscreen,
+        overlayVideo: overlayVideo,
+        text: test,
         child: child,
       );
     },

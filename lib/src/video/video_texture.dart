@@ -149,7 +149,7 @@ class VideoState extends State<Video> with WidgetsBindingObserver {
 
   Future<void> enterFullscreen() {
     return media_kit_video_controls.enterFullscreen(
-        _contextNotifier.value!, null);
+        _contextNotifier.value!, null, 'test');
   }
 
   Future<void> exitFullscreen() {
@@ -158,7 +158,7 @@ class VideoState extends State<Video> with WidgetsBindingObserver {
 
   Future<void> toggleFullscreen() {
     return media_kit_video_controls.toggleFullscreen(
-        _contextNotifier.value!, null);
+        _contextNotifier.value!, null, 'test');
   }
 
   void setSubtitleViewPadding(
