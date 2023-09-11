@@ -1436,7 +1436,7 @@ class MaterialFullscreenButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var overlayVideo =
-        MaterialDesktopVideoControlsTheme.maybeOf(context)?.overlayVideo ??
+        MaterialVideoControlsTheme.maybeOf(context)?.overlayVideo ??
             Container();
     return IconButton(
       onPressed: () => toggleFullscreen(context, overlayVideo),
